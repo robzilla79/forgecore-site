@@ -1,0 +1,55 @@
+
+---
+import { getCollection } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+
+export async function getStaticPaths() {
+  const issues = await getCollection("issues");
+  return issues.map((issue) => ({
+    params: { slug: issue.slug },
+    props: { issue },
+  }));
+}
+
+const { issue } = Astro.props as { issue: CollectionEntry<"issues"> };
+const { data, body } = issue;
+---
+
+<html lang="en">
+  <head>
+    <title>{data.title} · Forgecore AI Dispatch</title>
+  </head>
+  <body class="bg-slate-950 text-slate-50">
+    <main class="max-w-3xl mx-auto px-4 py-10 space-y-8">
+      <header class="space-y-3">
+        <p class="text-sm text-cyan-300 uppercase tracking-wide">
+          Forgecore AI Dispatch #{data.issueNumber}
+        </p>
+        <h1 class="text-3xl md:text-4xl font-semibold">
+          {data.title}
+        </h1>
+        <p class="text-sm text-slate-400">
+          {data.date.toISOString().slice(0, 10)}
+        </p>
+        {data.tags?.length && (
+          <div class="flex flex-wrap gap-2 mt-2">
+            {data.tags.map((tag) => (
+              <span
+                class="px-3 py-1 rounded-full border border-cyan-400/40 text-xs text-cyan-200 bg-slate-900/60"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+        )}
+        <p class="text-slate-300 mt-3">
+          {data.description}
+        </p>
+      </header>
+
+      <article class="prose prose-invert max-w-none">
+        {body}
+      </article>
+    </main>
+  </body>
+</html>

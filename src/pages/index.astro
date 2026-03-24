@@ -1,0 +1,67 @@
+
+---
+import { getCollection } from "astro:content";
+
+const issues = await getCollection("issues");
+const sorted = issues.sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime()
+);
+
+const latest = sorted[0];
+const recent = sorted.slice(1, 7);
+---
+
+<html lang="en">
+  <head>
+    <title>Forgecore AI Dispatch</title>
+  </head>
+  <body class="bg-slate-950 text-slate-50">
+    <main class="max-w-5xl mx-auto px-4 py-10 space-y-12">
+      {latest && (
+        <section>
+          <p class="text-sm uppercase tracking-wide text-cyan-300 mb-2">
+            Latest Issue
+          </p>
+          <a href={`/issues/${latest.slug}`} class="block">
+            <div
+              class="relative overflow-hidden rounded-3xl border border-cyan-500/40 bg-slate-900/60 shadow-2xl p-6 md:p-10"
+            >
+              <h1 class="text-3xl md:text-4xl font-semibold mb-3">
+                {latest.data.title}
+              </h1>
+              <p class="text-slate-300 mb-4">
+                {latest.data.description}
+              </p>
+              <p class="text-sm text-slate-400">
+                Issue #{latest.data.issueNumber}
+                · {latest.data.date.toISOString().slice(0, 10)}
+              </p>
+            </div>
+          </a>
+        </section>
+      )}
+
+      {recent.length > 0 && (
+        <section class="space-y-4">
+          <h2 class="text-xl font-semibold">Recent Issues</h2>
+          <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {recent.map((issue) => (
+              <a
+                href={`/issues/${issue.slug}`}
+                class="rounded-2xl border border-slate-800 bg-slate-900/40 p-4 hover:border-cyan-400/60 transition-colors"
+              >
+                <h3 class="font-semibold mb-1">{issue.data.title}</h3>
+                <p class="text-sm text-slate-400 mb-2">
+                  {issue.data.date.toISOString().slice(0, 10)}
+                </p>
+                <p class="text-sm text-slate-300 line-clamp-3">
+                  {issue.data.description}
+                </p>
+              </a>
+            ))}
+          </div>
+        </section>
+      )}
+    </main>
+  </body>
+</html>
