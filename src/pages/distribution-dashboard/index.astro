@@ -1,0 +1,254 @@
+---
+const platforms = [
+  {
+    name: 'X / Twitter',
+    audience: 'AI operators, founders, creators, builders',
+    url: 'https://twitter.com/intent/tweet',
+    copy: `New from ForgeCore: a practical AI operator brief for people turning AI tools into real workflows, revenue, and leverage.\n\nRead it here: {URL}\n\nSubscribe if you want the signal without the hype.`,
+    notes: 'Keep it punchy. Add 1-2 relevant hashtags only when useful.'
+  },
+  {
+    name: 'LinkedIn',
+    audience: 'professionals, operators, founders, consultants',
+    url: 'https://www.linkedin.com/feed/',
+    copy: `AI productivity is shifting from tool discovery to workflow design.\n\nThe newest ForgeCore brief breaks down what changed, why it matters, and how operators can apply it this week.\n\nRead it here: {URL}\n\nIf you are building an AI-enabled business or trying to make your team faster with practical systems, this is for you.`,
+    notes: 'Lead with the business outcome. LinkedIn rewards context, not link dumps.'
+  },
+  {
+    name: 'Threads',
+    audience: 'fast social readers, creators, indie builders',
+    url: 'https://www.threads.net/intent/post',
+    copy: `AI tools are everywhere. Useful AI workflows are still rare.\n\nI wrote the newest ForgeCore brief to help operators separate signal from noise and turn AI news into action.\n\n{URL}`,
+    notes: 'Conversational tone. Less polished than LinkedIn.'
+  },
+  {
+    name: 'Bluesky',
+    audience: 'tech-forward readers, open web community',
+    url: 'https://bsky.app/intent/compose',
+    copy: `New ForgeCore brief is live.\n\nPractical AI productivity signal for builders, operators, and solo businesses.\n\n{URL}`,
+    notes: 'Keep it direct. Avoid over-selling.'
+  },
+  {
+    name: 'Reddit',
+    audience: 'subreddit-specific communities',
+    url: 'https://www.reddit.com/submit',
+    copy: `I put together a practical breakdown of recent AI productivity shifts and what they mean for builders/operators.\n\nThe focus is less “AI news” and more “what can you actually do with this?”\n\nWould appreciate feedback from people building repeatable AI workflows.\n\nLink: {URL}`,
+    notes: 'Customize for each subreddit. Add value first. Do not spam generic promo copy.'
+  },
+  {
+    name: 'Indie Hackers',
+    audience: 'solo founders, builders, bootstrappers',
+    url: 'https://www.indiehackers.com/post/new',
+    copy: `I’m building ForgeCore as a practical AI productivity brief for solo operators and small teams.\n\nThe latest issue focuses on turning AI tool noise into repeatable workflows people can actually use.\n\nWould love feedback from other founders on the angle and positioning.\n\n{URL}`,
+    notes: 'Founder journey angle usually performs better than pure promotion.'
+  },
+  {
+    name: 'Hacker News',
+    audience: 'technical founders, engineers, early adopters',
+    url: 'https://news.ycombinator.com/submit',
+    copy: `ForgeCore AI Productivity Brief: practical AI workflow signal for builders and operators\n\n{URL}`,
+    notes: 'HN is picky. Only submit genuinely strong, technical, or novel pieces.'
+  },
+  {
+    name: 'Facebook Groups',
+    audience: 'niche AI, creator, entrepreneur groups',
+    url: 'https://www.facebook.com/groups/feed/',
+    copy: `I wrote a practical AI productivity brief for people trying to turn new AI tools into actual business workflows.\n\nThe goal is to filter the noise and surface what is useful this week.\n\nHere is the latest issue: {URL}`,
+    notes: 'Edit for the group rules. Many groups ban direct promotion.'
+  },
+  {
+    name: 'Slack / Discord Communities',
+    audience: 'private communities and high-trust groups',
+    url: '',
+    copy: `Sharing the newest ForgeCore brief in case it helps anyone here building AI workflows.\n\nThe focus is practical: what changed, why it matters, and what to try next.\n\n{URL}`,
+    notes: 'Best growth channel if posted in the right high-trust rooms.'
+  },
+  {
+    name: 'Newsletter Swap / Partner DM',
+    audience: 'potential partners and audience swaps',
+    url: 'mailto:',
+    copy: `Hey — I thought your audience might like this ForgeCore issue. It is a practical AI productivity brief focused on workflows, tools, and operator leverage.\n\nLatest issue: {URL}\n\nOpen to a newsletter swap or a small cross-promo if it feels aligned.`,
+    notes: 'Use this for direct outreach, not public posting.'
+  }
+];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ForgeCore Distribution Dashboard</title>
+    <style>
+      :root { color-scheme: dark; font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+      * { box-sizing: border-box; }
+      body { margin: 0; background: #020617; color: #e2e8f0; }
+      main { max-width: 1180px; margin: 0 auto; padding: 32px 18px 80px; }
+      header { display: grid; gap: 16px; margin-bottom: 24px; }
+      h1 { margin: 0; font-size: clamp(2rem, 5vw, 4rem); line-height: .95; letter-spacing: -0.06em; }
+      p { color: #94a3b8; line-height: 1.6; }
+      a { color: inherit; }
+      .panel { border: 1px solid rgba(34,211,238,.25); background: linear-gradient(135deg, rgba(15,23,42,.96), rgba(8,47,73,.35)); border-radius: 28px; padding: 22px; box-shadow: 0 24px 80px rgba(0,0,0,.35); }
+      .controls { display: grid; gap: 14px; grid-template-columns: 1fr; margin-top: 18px; }
+      label { display: grid; gap: 8px; font-size: .8rem; text-transform: uppercase; letter-spacing: .08em; color: #67e8f9; }
+      input, textarea { width: 100%; border: 1px solid rgba(148,163,184,.28); background: rgba(15,23,42,.78); color: #e2e8f0; border-radius: 16px; padding: 12px 14px; font: inherit; outline: none; }
+      textarea { min-height: 170px; resize: vertical; line-height: 1.45; }
+      input:focus, textarea:focus { border-color: #22d3ee; box-shadow: 0 0 0 3px rgba(34,211,238,.12); }
+      .toolbar { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-top: 14px; }
+      button, .button { border: 0; border-radius: 999px; padding: 10px 14px; background: #22d3ee; color: #042f2e; font-weight: 800; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; }
+      button.secondary, .button.secondary { background: rgba(148,163,184,.14); color: #e2e8f0; border: 1px solid rgba(148,163,184,.22); }
+      .grid { display: grid; gap: 16px; margin-top: 18px; }
+      .card { border: 1px solid rgba(148,163,184,.18); background: rgba(15,23,42,.72); border-radius: 24px; padding: 18px; display: grid; gap: 12px; }
+      .card-head { display: flex; gap: 12px; justify-content: space-between; align-items: flex-start; }
+      h2 { margin: 0; font-size: 1.1rem; }
+      .meta { margin: 4px 0 0; font-size: .86rem; color: #94a3b8; }
+      .note { margin: 0; font-size: .86rem; color: #cbd5e1; background: rgba(2,6,23,.45); border-radius: 14px; padding: 10px 12px; }
+      .posted { display: inline-flex; gap: 8px; align-items: center; color: #cbd5e1; text-transform: none; letter-spacing: 0; font-size: .9rem; }
+      .posted input { width: auto; accent-color: #22d3ee; }
+      .status { color: #67e8f9; font-size: .92rem; min-height: 1.2em; }
+      .progress { height: 10px; border-radius: 999px; background: rgba(148,163,184,.15); overflow: hidden; }
+      .bar { height: 100%; width: 0; background: #22d3ee; transition: width .2s ease; }
+      @media (min-width: 840px) { .controls { grid-template-columns: 1.5fr 1fr; } .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header class="panel">
+        <div>
+          <p style="margin:0 0 8px; color:#67e8f9; text-transform:uppercase; letter-spacing:.12em; font-size:.78rem;">ForgeCore operator tool</p>
+          <h1>Distribution Dashboard</h1>
+          <p>Paste the URL you want to promote, tune each platform draft, then copy and open the right posting page without bouncing around your browser.</p>
+        </div>
+        <div class="controls">
+          <label>Promoted URL
+            <input id="assetUrl" placeholder="https://forgecore.co/issues/..." />
+          </label>
+          <label>Asset title / campaign note
+            <input id="assetTitle" placeholder="Latest ForgeCore issue, lead magnet, or offer" />
+          </label>
+        </div>
+        <div class="progress"><div class="bar" id="bar"></div></div>
+        <div class="toolbar">
+          <button id="resetCopy" class="secondary" type="button">Reset starter copy</button>
+          <span id="progressText" class="status">0 posted</span>
+        </div>
+      </header>
+
+      <section class="grid" id="cards">
+        {platforms.map((platform, index) => (
+          <article class="card" data-index={index}>
+            <div class="card-head">
+              <div>
+                <h2>{platform.name}</h2>
+                <p class="meta">{platform.audience}</p>
+              </div>
+              <label class="posted"><input type="checkbox" data-role="posted" /> Posted</label>
+            </div>
+            <label>Post page URL
+              <input data-role="url" value={platform.url} placeholder="Paste the exact community or compose URL" />
+            </label>
+            <label>Platform copy
+              <textarea data-role="copy">{platform.copy}</textarea>
+            </label>
+            <p class="note">{platform.notes}</p>
+            <div class="toolbar">
+              <button type="button" data-action="copy">Copy</button>
+              <button type="button" data-action="copy-open">Copy + open</button>
+              <a class="button secondary" data-role="open" href={platform.url || '#'} target="_blank" rel="noreferrer">Open post page</a>
+              <span class="status" data-role="status"></span>
+            </div>
+          </article>
+        ))}
+      </section>
+    </main>
+
+    <script define:vars={{ platforms }}>
+      const stateKey = 'forgecore-distribution-dashboard-v1';
+      const defaults = platforms;
+      const assetUrl = document.getElementById('assetUrl');
+      const assetTitle = document.getElementById('assetTitle');
+      const cards = Array.from(document.querySelectorAll('.card'));
+      const bar = document.getElementById('bar');
+      const progressText = document.getElementById('progressText');
+      const resetCopy = document.getElementById('resetCopy');
+
+      function load() {
+        try { return JSON.parse(localStorage.getItem(stateKey)) || {}; }
+        catch { return {}; }
+      }
+
+      function save() {
+        const data = {
+          assetUrl: assetUrl.value,
+          assetTitle: assetTitle.value,
+          platforms: cards.map((card) => ({
+            url: card.querySelector('[data-role="url"]').value,
+            copy: card.querySelector('[data-role="copy"]').value,
+            posted: card.querySelector('[data-role="posted"]').checked
+          }))
+        };
+        localStorage.setItem(stateKey, JSON.stringify(data));
+        updateProgress();
+      }
+
+      function finalCopy(text) {
+        return text.replaceAll('{URL}', assetUrl.value.trim() || '[PASTE URL]');
+      }
+
+      function updateProgress() {
+        let count = 0;
+        cards.forEach((card) => {
+          const url = card.querySelector('[data-role="url"]').value.trim();
+          const open = card.querySelector('[data-role="open"]');
+          open.href = url || '#';
+          if (card.querySelector('[data-role="posted"]').checked) count += 1;
+        });
+        const pct = Math.round((count / cards.length) * 100);
+        bar.style.width = pct + '%';
+        progressText.textContent = `${count}/${cards.length} posted`;
+      }
+
+      async function copyFromCard(card) {
+        const textarea = card.querySelector('[data-role="copy"]');
+        const status = card.querySelector('[data-role="status"]');
+        const text = finalCopy(textarea.value);
+        await navigator.clipboard.writeText(text);
+        status.textContent = 'Copied';
+        setTimeout(() => { status.textContent = ''; }, 1600);
+      }
+
+      const saved = load();
+      assetUrl.value = saved.assetUrl || '';
+      assetTitle.value = saved.assetTitle || '';
+      cards.forEach((card, index) => {
+        const item = saved.platforms?.[index];
+        if (item) {
+          card.querySelector('[data-role="url"]').value = item.url || '';
+          card.querySelector('[data-role="copy"]').value = item.copy || defaults[index].copy;
+          card.querySelector('[data-role="posted"]').checked = Boolean(item.posted);
+        }
+      });
+
+      document.addEventListener('input', save);
+      document.addEventListener('change', save);
+      document.addEventListener('click', async (event) => {
+        const button = event.target.closest('button');
+        if (!button) return;
+        const card = event.target.closest('.card');
+        if (button.dataset.action === 'copy' && card) await copyFromCard(card);
+        if (button.dataset.action === 'copy-open' && card) {
+          await copyFromCard(card);
+          const url = card.querySelector('[data-role="url"]').value.trim();
+          if (url) window.open(url, '_blank', 'noreferrer');
+        }
+      });
+      resetCopy.addEventListener('click', () => {
+        cards.forEach((card, index) => {
+          card.querySelector('[data-role="copy"]').value = defaults[index].copy;
+          card.querySelector('[data-role="posted"]').checked = false;
+        });
+        save();
+      });
+      updateProgress();
+    </script>
+  </body>
+</html>
