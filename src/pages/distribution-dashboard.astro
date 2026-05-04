@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ForgeCore Distribution Dashboard</title>
+  <meta name="description" content="Manual social distribution dashboard for ForgeCore subscriber growth." />
+  <style>
+    :root{color-scheme:dark;--bg:#050816;--card:#0f172acc;--line:#94a3b83d;--text:#f8fafc;--muted:#94a3b8;--cyan:#22d3ee;--green:#34d399;--warn:#fbbf24;--bad:#fb7185}*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(circle at top left,#22d3ee33,transparent 34rem),radial-gradient(circle at top right,#818cf833,transparent 32rem),var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.wrap{width:min(1220px,calc(100% - 32px));margin:auto;padding:34px 0 70px}.eyebrow{color:var(--cyan);font-size:.78rem;font-weight:900;letter-spacing:.14em;text-transform:uppercase}h1{margin:.2rem 0 1rem;font-size:clamp(2.2rem,5vw,4.8rem);line-height:.94;letter-spacing:-.06em}.lead{max-width:820px;color:#cbd5e1;font-size:1.08rem;line-height:1.65}.notice,.toolbar,.setup,.progress,.card{border:1px solid var(--line);background:var(--card);box-shadow:0 24px 80px #0007;backdrop-filter:blur(18px);border-radius:22px}.notice{border-color:#fbbf2459;color:#fde68a;background:#fbbf2414;padding:14px 16px;margin:18px 0}.toolbar{position:sticky;top:0;z-index:2;display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:center;padding:14px;margin:18px 0}.group{display:flex;flex-wrap:wrap;gap:10px;align-items:center}.btn{cursor:pointer;border:1px solid #94a3b84a;background:#0f172ccc;color:var(--text);border-radius:999px;padding:10px 14px;font-weight:850}.btn:hover{border-color:#22d3eebb;background:#083344cc}.primary{background:linear-gradient(135deg,#0891b2,#2563eb);border-color:#22d3eebb}.danger:hover{border-color:#fb7185;background:#7f1d1dcc}.setup{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;padding:18px;margin-bottom:18px}.field{display:grid;gap:7px}.field.full{grid-column:1/-1}label{color:#cbd5e1;font-size:.78rem;font-weight:850;letter-spacing:.08em;text-transform:uppercase}input,textarea{width:100%;border:1px solid #94a3b83d;background:#02061799;color:var(--text);border-radius:14px;padding:12px;outline:0;font:inherit}textarea{min-height:170px;resize:vertical;line-height:1.5}input:focus,textarea:focus{border-color:#22d3eec2;box-shadow:0 0 0 4px #22d3ee1a}.progress{padding:18px;margin-bottom:18px}.top{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:10px}.bar{height:12px;background:#94a3b829;border-radius:999px;overflow:hidden}.bar span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--cyan),var(--green));transition:.2s}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.card{display:grid;gap:13px;padding:18px}.head{display:flex;justify-content:space-between;gap:14px}.title{display:flex;align-items:center;gap:10px;margin:0 0 6px;font-size:1.2rem}.mark{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:12px;background:#22d3ee20;color:var(--cyan);font-weight:950}.purpose{margin:0;color:var(--muted);line-height:1.45}.posted{display:flex;align-items:center;gap:7px;white-space:nowrap;color:#cbd5e1;font-size:.9rem;font-weight:800}.posted input{width:18px;height:18px}.actions{display:flex;flex-wrap:wrap;gap:10px}.small{color:var(--muted);font-size:.86rem}.meta{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}.ok{color:var(--green)}.warn{color:var(--warn)}.bad{color:var(--bad)}.toast{position:fixed;right:18px;bottom:18px;z-index:5;max-width:min(420px,calc(100% - 36px));padding:13px 15px;border:1px solid #34d39973;border-radius:16px;background:#064e3bee;color:#ecfdf5;box-shadow:0 18px 60px #0008;opacity:0;transform:translateY(12px);transition:.18s;pointer-events:none}.toast.show{opacity:1;transform:translateY(0)}@media(max-width:900px){.setup,.grid{grid-template-columns:1fr}.toolbar{position:static}}
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <p class="eyebrow">ForgeCore growth ops</p>
+    <h1>Distribution Dashboard</h1>
+    <p class="lead">Tune one campaign, copy platform-specific drafts, open the right posting page, and track what has shipped. Built for manual posting so you get speed without API or platform-rule headaches.</p>
+    <div class="notice">Public-page note: this static dashboard is visible to anyone with the URL unless the Cloudflare project is protected with Cloudflare Access. Do not store secrets or sensitive partner details here.</div>
+
+    <section class="toolbar" aria-label="Dashboard actions">
+      <div class="group">
+        <button class="btn primary" id="copyAll">Copy all drafts</button>
+        <button class="btn" id="regen">Regenerate drafts</button>
+        <button class="btn" id="exportJson">Export JSON</button>
+      </div>
+      <div class="group">
+        <span class="small" id="saveState">Saved in this browser</span>
+        <button class="btn danger" id="reset">Reset local edits</button>
+      </div>
+    </section>
+
+    <section class="setup" aria-label="Campaign setup">
+      <div class="field"><label for="assetTitle">Asset title or hook</label><input id="assetTitle" /></div>
+      <div class="field"><label for="assetUrl">URL to promote</label><input id="assetUrl" inputmode="url" /></div>
+      <div class="field"><label for="audience">Primary audience</label><input id="audience" /></div>
+      <div class="field"><label for="cta">CTA</label><input id="cta" /></div>
+      <div class="field full"><label for="angle">Distribution angle</label><input id="angle" /></div>
+    </section>
+
+    <section class="progress" aria-label="Posting progress">
+      <div class="top"><strong id="progressText">0 posted</strong><span class="small">Tip: add your exact subreddit, group, Slack, Discord, or forum URL in each destination field.</span></div>
+      <div class="bar"><span id="progressBar"></span></div>
+    </section>
+
+    <section class="grid" id="grid" aria-label="Platform posting cards"></section>
+  </main>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script type="module">
+    const key = "forgecore-distribution-dashboard-v1";
+    const $ = (s) => document.querySelector(s);
+    const defaults = {
+      assetTitle: "The ForgeCore AI Dispatch",
+      assetUrl: "https://news.forgecore.co/",
+      audience: "solo operators, founders, and AI-curious builders",
+      cta: "Subscribe for the next issue",
+      angle: "A practical briefing on the AI tools and workflows worth paying attention to this week."
+    };
+    const channels = [
+      ["x","X / Twitter","X",280,"https://twitter.com/intent/tweet","Fast awareness, repeatable hooks, and link discovery.",d=>`${d.title}\n\n${d.angle}\n\n${d.cta}: ${d.url}`],
+      ["linkedin","LinkedIn","in",3000,"https://www.linkedin.com/feed/","Best for founder/operator framing and higher-intent subscribers.",d=>`I am building ForgeCore for ${d.audience}.\n\nToday’s useful signal:\n${d.angle}\n\nThe goal is simple: fewer hype cycles, more practical AI workflows you can actually use.\n\n${d.cta}: ${d.url}`],
+      ["threads","Threads","@",500,"https://www.threads.net/intent/post","Casual discovery and quick conversation starters.",d=>`${d.title}\n\n${d.angle}\n\nI am collecting the useful AI workflow signal here: ${d.url}`],
+      ["bluesky","Bluesky","B",300,"https://bsky.app/intent/compose","Builder-friendly short posts and early-adopter reach.",d=>`${d.title}\n\n${d.angle}\n\n${d.url}`],
+      ["reddit","Reddit","R",4000,"https://www.reddit.com/submit","High upside when posted as a useful discussion, not a drive-by link.",d=>`Title idea: ${d.title}\n\nI am tracking practical AI tools for ${d.audience}, and this week’s main takeaway is:\n\n${d.angle}\n\nCurious how others are handling this in their own workflow. What tools or habits have actually stuck for you?\n\nReference: ${d.url}`],
+      ["hackernews","Hacker News","HN",120,"https://news.ycombinator.com/submitlink","Use sparingly for genuinely technical or builder-relevant pieces.",d=>d.title],
+      ["indiehackers","Indie Hackers","IH",3000,"https://www.indiehackers.com/post/new","Great for transparent build-in-public updates and growth lessons.",d=>`I am building ForgeCore as an AI tools/media business and using this as the distribution loop.\n\nThis week’s angle: ${d.angle}\n\nThe asset: ${d.title}\n\n${d.cta}: ${d.url}\n\nOpen question: which distribution channel has been most reliable for your newsletter or media project lately?`],
+      ["medium","Medium","M",7000,"https://medium.com/new-story","Repurpose the issue into an evergreen article with a link back to ForgeCore.",d=>`${d.title}\n\n${d.angle}\n\nI publish the full ForgeCore AI Dispatch with practical tool notes, workflow ideas, and operator takeaways.\n\n${d.cta}: ${d.url}`],
+      ["substack","Substack Notes","S",500,"https://substack.com/home","Newsletter-native audience; good for concise notes and cross-promotion.",d=>`${d.title}\n\n${d.angle}\n\nReading link: ${d.url}`],
+      ["facebook","Facebook Groups","f",3000,"https://www.facebook.com/groups/feed/","Useful for niche AI, creator, and small-business communities when group-specific.",d=>`Sharing this for ${d.audience}: ${d.title}\n\n${d.angle}\n\nI would love to know what AI tools or workflows people here are actually using week to week.\n\n${d.url}`],
+      ["community","Discord / Slack Community","#",2000,"https://discord.com/channels/@me","Highest trust channel when shared in communities where you already participate.",d=>`Useful AI workflow note I thought this group would appreciate:\n\n${d.title}\n${d.angle}\n\nLink: ${d.url}`],
+      ["producthunt","Product Hunt Discussions","P",3000,"https://www.producthunt.com/discussions","Best for launch-adjacent assets, tool roundups, and builder questions.",d=>`I am curating practical AI workflow signal at ForgeCore.\n\nCurrent topic: ${d.title}\n\n${d.angle}\n\nFor people building with AI tools: what are you actually keeping in your stack right now?\n\n${d.url}`]
+    ].map(([id,name,mark,limit,destination,purpose,template])=>({id,name,mark,limit,destination,purpose,template}));
+
+    let state = load();
+    renderSetup(); renderCards();
+
+    function data(){return {title: state.c.assetTitle || defaults.assetTitle, url: state.c.assetUrl || defaults.assetUrl, audience: state.c.audience || defaults.audience, cta: state.c.cta || defaults.cta, angle: state.c.angle || defaults.angle};}
+    function makeDrafts(){const d=data(); return Object.fromEntries(channels.map(c=>[c.id,c.template(d)]));}
+    function load(){
+      let s = {c:{...defaults}, drafts:{}, dest:{}, posted:{}};
+      try { s = {...s, ...(JSON.parse(localStorage.getItem(key) || "null") || {})}; } catch {}
+      s.c = {...defaults, ...(s.c || {})};
+      channels.forEach(c => { s.drafts[c.id] ||= c.template(dataFromCampaign(s.c)); s.dest[c.id] ||= c.destination; s.posted[c.id] ||= false; });
+      return s;
+    }
+    function dataFromCampaign(c){return {title:c.assetTitle||defaults.assetTitle,url:c.assetUrl||defaults.assetUrl,audience:c.audience||defaults.audience,cta:c.cta||defaults.cta,angle:c.angle||defaults.angle};}
+    function save(){localStorage.setItem(key, JSON.stringify(state)); $("#saveState").textContent = "Saved " + new Date().toLocaleTimeString([], {hour:"numeric", minute:"2-digit"});}
+    function renderSetup(){["assetTitle","assetUrl","audience","cta","angle"].forEach(id => { $("#"+id).value = state.c[id] || ""; });}
+    function h(v){return String(v).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/\"/g,"&quot;");}
+    function renderCards(){
+      $("#grid").innerHTML = channels.map(c => `<article class="card"><div class="head"><div><h2 class="title"><span class="mark">${c.mark}</span>${c.name}</h2><p class="purpose">${c.purpose}</p></div><label class="posted"><input type="checkbox" data-posted="${c.id}" ${state.posted[c.id] ? "checked" : ""}> Posted</label></div><div class="field"><label>Post destination</label><input data-dest="${c.id}" value="${h(state.dest[c.id])}" inputmode="url"></div><div class="field"><label>Copy for ${c.name}</label><textarea data-draft="${c.id}">${h(state.drafts[c.id])}</textarea></div><div class="meta"><span class="small" data-count="${c.id}"></span><span class="small">Recommended limit: ${c.limit.toLocaleString()} chars</span></div><div class="actions"><button class="btn primary" data-copy="${c.id}">Copy</button><button class="btn" data-open="${c.id}">Open post page</button><button class="btn" data-both="${c.id}">Copy + open</button></div></article>`).join("");
+      update();
+    }
+    function update(){
+      let done = channels.filter(c => state.posted[c.id]).length;
+      $("#progressText").textContent = `${done} of ${channels.length} posted`;
+      $("#progressBar").style.width = Math.round(done / channels.length * 100) + "%";
+      channels.forEach(c => { let n=(state.drafts[c.id]||"").length, el=document.querySelector(`[data-count="${c.id}"]`); if(!el)return; el.textContent = n.toLocaleString() + " characters"; el.className = "small " + (n<=c.limit?"ok":n<=c.limit*1.15?"warn":"bad"); });
+    }
+    function openUrl(c){
+      try { const u = new URL(state.dest[c.id] || c.destination); const d = data(), draft = state.drafts[c.id] || ""; if(["x","threads","bluesky"].includes(c.id)) u.searchParams.set("text", draft); if(c.id==="reddit"){u.searchParams.set("url", d.url); u.searchParams.set("title", d.title);} if(c.id==="hackernews"){u.searchParams.set("u", d.url); u.searchParams.set("t", d.title);} return u.toString(); } catch { return state.dest[c.id] || c.destination; }
+    }
+    async function copy(text,msg){await navigator.clipboard.writeText(text); toast(msg);}
+    function toast(msg){const t=$("#toast"); t.textContent=msg; t.classList.add("show"); setTimeout(()=>t.classList.remove("show"),1800);}
+
+    document.querySelectorAll("#assetTitle,#assetUrl,#audience,#cta,#angle").forEach(input => input.addEventListener("input", () => { state.c[input.id]=input.value; save(); }));
+    $("#grid").addEventListener("input", e => { if(e.target.dataset.draft) state.drafts[e.target.dataset.draft]=e.target.value; if(e.target.dataset.dest) state.dest[e.target.dataset.dest]=e.target.value; update(); save(); });
+    $("#grid").addEventListener("change", e => { if(e.target.dataset.posted){state.posted[e.target.dataset.posted]=e.target.checked; update(); save();} });
+    $("#grid").addEventListener("click", async e => { const id=e.target.dataset.copy||e.target.dataset.open||e.target.dataset.both; if(!id)return; const c=channels.find(x=>x.id===id); if(e.target.dataset.copy||e.target.dataset.both) await copy(state.drafts[id]||"", `${c.name} draft copied`); if(e.target.dataset.open||e.target.dataset.both) window.open(openUrl(c), "_blank", "noopener,noreferrer"); });
+    $("#copyAll").addEventListener("click", async () => copy(channels.map(c=>`## ${c.name}\n${state.drafts[c.id]||""}\n`).join("\n"), "All drafts copied"));
+    $("#regen").addEventListener("click", () => { state.drafts = makeDrafts(); save(); renderCards(); toast("Drafts regenerated"); });
+    $("#exportJson").addEventListener("click", async () => copy(JSON.stringify(state,null,2), "Dashboard JSON copied"));
+    $("#reset").addEventListener("click", () => { localStorage.removeItem(key); state=load(); renderSetup(); renderCards(); save(); toast("Local edits reset"); });
+  </script>
+</body>
+</html>
