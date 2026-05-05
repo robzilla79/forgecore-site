@@ -8,6 +8,9 @@ const issues = defineCollection({
     description: z.string(),
     issueNumber: z.number(),
     heroImage: z.string().optional(),
+    visualType: z.enum(["workflow", "automation", "tool-stack", "warning", "seo"]).optional(),
+    videoUrl: z.string().url().optional(),
+    videoTitle: z.string().optional(),
     tags: z.array(z.string()).default([]),
   }),
 });
