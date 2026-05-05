@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">ForgeCore automation visual</title>
+  <desc id="desc">A ForgeCore branded automation visual showing trigger, AI assist, and review.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#020617"/><stop offset="0.55" stop-color="#0f172a"/><stop offset="1" stop-color="#164e63"/></linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <circle cx="1330" cy="190" r="280" fill="#22d3ee" opacity="0.18"/>
+  <circle cx="210" cy="730" r="300" fill="#a78bfa" opacity="0.18"/>
+  <text x="110" y="145" fill="#67e8f9" font-family="Inter, Arial, sans-serif" font-size="34" font-weight="800" letter-spacing="8">FORGECORE</text>
+  <text x="110" y="235" fill="#ffffff" font-family="Inter, Arial, sans-serif" font-size="78" font-weight="900">Automation Map</text>
+  <text x="112" y="300" fill="#cbd5e1" font-family="Inter, Arial, sans-serif" font-size="32">Automate stable handoffs. Keep judgment under review.</text>
+  <g transform="translate(150 430)" fill="none" stroke-width="6">
+    <rect x="0" y="0" width="300" height="170" rx="34" fill="#0f172a" stroke="#67e8f9"/>
+    <rect x="480" y="0" width="300" height="170" rx="34" fill="#0f172a" stroke="#a78bfa"/>
+    <rect x="960" y="0" width="300" height="170" rx="34" fill="#0f172a" stroke="#2dd4bf"/>
+    <path d="M300 85H480M780 85H960" stroke="#e0f2fe" stroke-dasharray="18 18" stroke-linecap="round"/>
+    <circle cx="630" cy="85" r="82" stroke="#a78bfa" opacity="0.55"/>
+  </g>
+  <text x="235" y="525" text-anchor="middle" fill="#ffffff" font-family="Inter, Arial, sans-serif" font-size="34" font-weight="800">Trigger</text>
+  <text x="715" y="525" text-anchor="middle" fill="#ffffff" font-family="Inter, Arial, sans-serif" font-size="34" font-weight="800">AI Assist</text>
+  <text x="1195" y="525" text-anchor="middle" fill="#ffffff" font-family="Inter, Arial, sans-serif" font-size="34" font-weight="800">Review</text>
+</svg>
