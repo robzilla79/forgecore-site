@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">ForgeCore warning visual</title>
+  <desc id="desc">A ForgeCore branded caution graphic for bad-fit tools and operator risks.</desc>
+  <defs><linearGradient id="bg" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#020617"/><stop offset="0.58" stop-color="#111827"/><stop offset="1" stop-color="#451a03"/></linearGradient></defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <circle cx="1280" cy="150" r="300" fill="#f59e0b" opacity="0.16"/>
+  <circle cx="230" cy="740" r="300" fill="#22d3ee" opacity="0.12"/>
+  <text x="110" y="145" fill="#fcd34d" font-family="Inter, Arial, sans-serif" font-size="34" font-weight="800" letter-spacing="8">FORGECORE</text>
+  <text x="110" y="235" fill="#ffffff" font-family="Inter, Arial, sans-serif" font-size="78" font-weight="900">Bad-Fit Warning</text>
+  <text x="112" y="300" fill="#cbd5e1" font-family="Inter, Arial, sans-serif" font-size="32">Avoid tool spend before the workflow is clear.</text>
+  <g transform="translate(600 410)">
+    <path d="M200 0L400 350H0L200 0Z" fill="#0f172a" stroke="#f59e0b" stroke-width="10"/>
+    <text x="200" y="205" text-anchor="middle" fill="#fcd34d" font-family="Inter, Arial, sans-serif" font-size="150" font-weight="900">!</text>
+  </g>
+  <g transform="translate(160 690)" fill="#cbd5e1" font-family="Inter, Arial, sans-serif" font-size="30">
+    <text x="0" y="0">Use a checklist first • Automate stable handoffs • Review expensive mistakes</text>
+  </g>
+</svg>

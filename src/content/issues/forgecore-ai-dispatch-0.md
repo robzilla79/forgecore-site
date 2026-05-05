@@ -5,7 +5,8 @@ slug: "forgecore-ai-dispatch-0"
 date: "2026-03-23"
 description: "Bootstrapping the Forgecore AI newsletter engine and design."
 issueNumber: 0
-heroImage: "/images/issues/00-hero.jpg"
+heroImage: "/images/issues/default-workflow.svg"
+visualType: "workflow"
 tags:
   - ai
   - newsletter

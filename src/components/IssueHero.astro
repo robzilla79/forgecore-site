@@ -1,0 +1,207 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+  heroImage?: string;
+  tags?: string[];
+  compact?: boolean;
+}
+
+const { title, description = "", heroImage = "", tags = [], compact = false } = Astro.props;
+const safeTags = tags.slice(0, compact ? 2 : 4);
+---
+
+<section class:list={["issue-hero", { compact }]} aria-label="Issue visual summary">
+  <div class="visual-frame">
+    {heroImage && (
+      <img
+        src={heroImage}
+        alt=""
+        loading={compact ? "lazy" : "eager"}
+        decoding="async"
+        onerror="this.style.display='none';this.nextElementSibling.style.display='block';"
+      />
+    )}
+    <div class:list={["generated-visual", { hidden: Boolean(heroImage) }]} aria-hidden="true">
+      <div class="orb orb-one"></div>
+      <div class="orb orb-two"></div>
+      <div class="grid-lines"></div>
+      <div class="visual-content">
+        <p class="kicker">ForgeCore</p>
+        <h2>{title}</h2>
+        {description && !compact && <p>{description}</p>}
+        <div class="signal-row">
+          <span>Workflow</span>
+          <span>Tools</span>
+          <span>Operator leverage</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {safeTags.length > 0 && (
+    <div class="tag-row" aria-label="Issue tags">
+      {safeTags.map((tag) => <span>{tag}</span>)}
+    </div>
+  )}
+</section>
+
+<style>
+  .issue-hero {
+    display: grid;
+    gap: 0.85rem;
+    margin: 1.5rem 0 2rem;
+  }
+
+  .issue-hero.compact {
+    margin: 0 0 1rem;
+  }
+
+  .visual-frame {
+    overflow: hidden;
+    border: 1px solid rgba(34, 211, 238, 0.28);
+    border-radius: 1.75rem;
+    background: #020617;
+    box-shadow: 0 24px 80px rgba(2, 6, 23, 0.42);
+  }
+
+  .compact .visual-frame {
+    border-radius: 1.25rem;
+    box-shadow: none;
+  }
+
+  img {
+    display: block;
+    width: 100%;
+    min-height: 14rem;
+    max-height: 27rem;
+    object-fit: cover;
+    background: #020617;
+  }
+
+  .compact img {
+    min-height: 8rem;
+    max-height: 12rem;
+  }
+
+  .generated-visual {
+    position: relative;
+    min-height: 21rem;
+    isolation: isolate;
+    overflow: hidden;
+    background:
+      radial-gradient(circle at 20% 20%, rgba(34, 211, 238, 0.34), transparent 30%),
+      radial-gradient(circle at 84% 18%, rgba(168, 85, 247, 0.28), transparent 32%),
+      linear-gradient(135deg, #020617 0%, #0f172a 52%, #082f49 100%);
+  }
+
+  .generated-visual.hidden {
+    display: none;
+  }
+
+  .compact .generated-visual {
+    min-height: 10rem;
+  }
+
+  .grid-lines {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    opacity: 0.2;
+    background-image:
+      linear-gradient(rgba(148, 163, 184, 0.16) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(148, 163, 184, 0.16) 1px, transparent 1px);
+    background-size: 32px 32px;
+    mask-image: linear-gradient(to bottom, black, transparent 88%);
+  }
+
+  .orb {
+    position: absolute;
+    border-radius: 999px;
+    filter: blur(6px);
+    opacity: 0.68;
+  }
+
+  .orb-one {
+    width: 8rem;
+    height: 8rem;
+    right: 10%;
+    top: 18%;
+    background: rgba(34, 211, 238, 0.22);
+  }
+
+  .orb-two {
+    width: 12rem;
+    height: 12rem;
+    left: -4rem;
+    bottom: -4rem;
+    background: rgba(168, 85, 247, 0.24);
+  }
+
+  .visual-content {
+    position: relative;
+    display: flex;
+    min-height: inherit;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: clamp(1.25rem, 4vw, 2.4rem);
+  }
+
+  .kicker {
+    margin: 0 0 0.45rem;
+    color: #67e8f9;
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  h2 {
+    max-width: 780px;
+    margin: 0;
+    color: white;
+    font-size: clamp(1.45rem, 4vw, 3.25rem);
+    line-height: 1.02;
+    letter-spacing: -0.055em;
+  }
+
+  .compact h2 {
+    font-size: clamp(1.05rem, 2.5vw, 1.45rem);
+    line-height: 1.08;
+  }
+
+  .visual-content > p:not(.kicker) {
+    max-width: 660px;
+    margin: 0.85rem 0 0;
+    color: #cbd5e1;
+  }
+
+  .signal-row,
+  .tag-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .signal-row {
+    margin-top: 1.25rem;
+  }
+
+  .signal-row span,
+  .tag-row span {
+    border: 1px solid rgba(125, 211, 252, 0.32);
+    border-radius: 999px;
+    background: rgba(15, 23, 42, 0.64);
+    color: #e0f2fe;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    padding: 0.35rem 0.7rem;
+    text-transform: uppercase;
+  }
+
+  .compact .signal-row,
+  .compact .tag-row {
+    display: none;
+  }
+</style>

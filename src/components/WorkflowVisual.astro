@@ -1,0 +1,148 @@
+---
+interface Props {
+  type?: "workflow" | "automation" | "tool-stack" | "warning" | "seo" | string;
+  title?: string;
+  steps?: string[];
+}
+
+const {
+  type = "workflow",
+  title = "Turn the signal into an operator workflow",
+  steps = ["Pick the job", "Choose the lightest tool", "Ship one repeatable system"],
+} = Astro.props;
+
+const visualType = type || "workflow";
+const safeSteps = steps.slice(0, 4);
+---
+
+<section class={`workflow-visual ${visualType}`} aria-label="Workflow visual">
+  <div>
+    <p class="eyebrow">Operator visual</p>
+    <h2>{title}</h2>
+  </div>
+  <ol>
+    {safeSteps.map((step, index) => (
+      <li>
+        <span class="number">{String(index + 1).padStart(2, "0")}</span>
+        <span>{step}</span>
+      </li>
+    ))}
+  </ol>
+</section>
+
+<style>
+  .workflow-visual {
+    position: relative;
+    display: grid;
+    gap: 1.25rem;
+    margin: 1.5rem 0 2.25rem;
+    overflow: hidden;
+    border: 1px solid rgba(34, 211, 238, 0.24);
+    border-radius: 1.5rem;
+    background:
+      radial-gradient(circle at 100% 0%, rgba(34, 211, 238, 0.22), transparent 28%),
+      linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(8, 47, 73, 0.48));
+    padding: clamp(1rem, 3vw, 1.5rem);
+  }
+
+  .workflow-visual::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    opacity: 0.18;
+    background-image:
+      linear-gradient(rgba(148, 163, 184, 0.16) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(148, 163, 184, 0.16) 1px, transparent 1px);
+    background-size: 28px 28px;
+    pointer-events: none;
+  }
+
+  .workflow-visual.warning {
+    border-color: rgba(251, 191, 36, 0.32);
+    background:
+      radial-gradient(circle at 100% 0%, rgba(251, 191, 36, 0.18), transparent 28%),
+      linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(69, 26, 3, 0.42));
+  }
+
+  .workflow-visual.seo {
+    border-color: rgba(168, 85, 247, 0.32);
+    background:
+      radial-gradient(circle at 100% 0%, rgba(168, 85, 247, 0.22), transparent 28%),
+      linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(49, 46, 129, 0.44));
+  }
+
+  .workflow-visual.tool-stack {
+    border-color: rgba(45, 212, 191, 0.32);
+    background:
+      radial-gradient(circle at 100% 0%, rgba(45, 212, 191, 0.2), transparent 28%),
+      linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(20, 83, 45, 0.34));
+  }
+
+  .workflow-visual > * {
+    position: relative;
+  }
+
+  .eyebrow {
+    margin: 0 0 0.35rem;
+    color: #67e8f9;
+    font-size: 0.72rem;
+    font-weight: 900;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .warning .eyebrow {
+    color: #fcd34d;
+  }
+
+  .seo .eyebrow {
+    color: #d8b4fe;
+  }
+
+  h2 {
+    margin: 0;
+    color: white;
+    font-size: clamp(1.25rem, 3vw, 2rem);
+    line-height: 1.08;
+    letter-spacing: -0.04em;
+  }
+
+  ol {
+    display: grid;
+    gap: 0.85rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  li {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.8rem;
+    align-items: center;
+    border: 1px solid rgba(148, 163, 184, 0.18);
+    border-radius: 1rem;
+    background: rgba(2, 6, 23, 0.42);
+    padding: 0.85rem;
+    color: #e2e8f0;
+  }
+
+  .number {
+    display: inline-grid;
+    width: 2.35rem;
+    height: 2.35rem;
+    place-items: center;
+    border-radius: 0.8rem;
+    background: rgba(34, 211, 238, 0.14);
+    color: #bae6fd;
+    font-size: 0.78rem;
+    font-weight: 900;
+  }
+
+  @media (min-width: 820px) {
+    .workflow-visual {
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      align-items: center;
+    }
+  }
+</style>
