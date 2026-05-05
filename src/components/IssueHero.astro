@@ -13,25 +13,30 @@ const safeTags = tags.slice(0, compact ? 2 : 4);
 
 <section class:list={["issue-hero", { compact }]} aria-label="Issue visual summary">
   <div class="visual-frame">
-    {heroImage ? (
-      <img src={heroImage} alt="" loading={compact ? "lazy" : "eager"} decoding="async" />
-    ) : (
-      <div class="generated-visual" aria-hidden="true">
-        <div class="orb orb-one"></div>
-        <div class="orb orb-two"></div>
-        <div class="grid-lines"></div>
-        <div class="visual-content">
-          <p class="kicker">ForgeCore</p>
-          <h2>{title}</h2>
-          {description && !compact && <p>{description}</p>}
-          <div class="signal-row">
-            <span>Workflow</span>
-            <span>Tools</span>
-            <span>Operator leverage</span>
-          </div>
+    {heroImage && (
+      <img
+        src={heroImage}
+        alt=""
+        loading={compact ? "lazy" : "eager"}
+        decoding="async"
+        onerror="this.style.display='none';this.nextElementSibling.style.display='block';"
+      />
+    )}
+    <div class:list={["generated-visual", { hidden: Boolean(heroImage) }]} aria-hidden="true">
+      <div class="orb orb-one"></div>
+      <div class="orb orb-two"></div>
+      <div class="grid-lines"></div>
+      <div class="visual-content">
+        <p class="kicker">ForgeCore</p>
+        <h2>{title}</h2>
+        {description && !compact && <p>{description}</p>}
+        <div class="signal-row">
+          <span>Workflow</span>
+          <span>Tools</span>
+          <span>Operator leverage</span>
         </div>
       </div>
-    )}
+    </div>
   </div>
 
   {safeTags.length > 0 && (
@@ -88,6 +93,10 @@ const safeTags = tags.slice(0, compact ? 2 : 4);
       radial-gradient(circle at 20% 20%, rgba(34, 211, 238, 0.34), transparent 30%),
       radial-gradient(circle at 84% 18%, rgba(168, 85, 247, 0.28), transparent 32%),
       linear-gradient(135deg, #020617 0%, #0f172a 52%, #082f49 100%);
+  }
+
+  .generated-visual.hidden {
+    display: none;
   }
 
   .compact .generated-visual {
